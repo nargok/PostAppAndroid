@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -28,6 +30,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    dependencies {
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -62,6 +67,12 @@ dependencies {
 
     // ULID
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
+
+    // DI
+    val hiltVersion = "2.51.1"
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

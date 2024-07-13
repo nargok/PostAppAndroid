@@ -1,5 +1,6 @@
 package com.example.postapp
 
+import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.postapp.domain.model.PostItemModel
 import com.example.postapp.domain.vo.PostId
 import com.example.postapp.ui.theme.PostAppTheme
+import dagger.hilt.android.HiltAndroidApp
 import java.time.LocalDateTime
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +50,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+@HiltAndroidApp
+class PostApplication: Application()
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
