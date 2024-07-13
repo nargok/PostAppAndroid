@@ -57,6 +57,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PostList(
     items: List<PostItemModel>,
@@ -69,10 +70,16 @@ fun PostList(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = item.text,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                // TODO avatar icon
+                Column(modifier = Modifier.padding(start = 16.dp)) {
+                    Text(
+                        text = item.text,
+                    )
+                    Text(
+                        text = item.postedTimeFromNow(),
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
         }
     }
