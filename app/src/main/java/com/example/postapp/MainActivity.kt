@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.postapp.domain.model.PostItemModel
+import com.example.postapp.domain.vo.PostId
 import com.example.postapp.ui.theme.PostAppTheme
 import java.time.LocalDateTime
 
@@ -119,10 +120,10 @@ fun PostApp() {
 
     Column {
         AddPostInput { text ->
-            items = items + PostItemModel(nextId++, text, LocalDateTime.now())
+            items = items + PostItemModel(PostId.create(), text, LocalDateTime.now())
         }
         PostList(
-            items = items.sortedByDescending { it.createdAt },
+            items = items.sortedByDescending { it.id.value },
         )
     }
 
