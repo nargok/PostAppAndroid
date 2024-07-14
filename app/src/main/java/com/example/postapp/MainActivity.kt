@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.postapp.domain.model.PostItemModel
-import com.example.postapp.domain.vo.PostId
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.postapp.application.viewmodel.PostViewModel
+import com.example.postapp.domain.model.PostModel
 import com.example.postapp.ui.theme.PostAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
-import java.time.LocalDateTime
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +68,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PostList(
-    items: List<PostItemModel>,
+    items: List<PostModel>,
 ) {
     LazyColumn {
         items(items) { item ->
@@ -122,17 +125,12 @@ fun AddPostInput(onAddItem: (String) -> Unit) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PostApp() {
-    var items by remember {
-        mutableStateOf(listOf<PostItemModel>())
-    }
-    var nextId by remember {
-        mutableStateOf(0)
-    }
+fun PostApp(viewModel: PostViewModel = hiltViewModel()) {
+    val items by viewModel.items.collectAsState()
 
     Column {
         AddPostInput { text ->
-            items = items + PostItemModel(PostId.create(), text, LocalDateTime.now())
+            viewModel.addPost(text)
         }
         PostList(
             items = items.sortedByDescending { it.id.value },

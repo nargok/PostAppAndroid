@@ -1,4 +1,4 @@
-package com.example.postapp.domain.vo
+package com.example.postapp.domain.model.vo
 
 import de.huxhorn.sulky.ulid.ULID
 
