@@ -1,9 +1,10 @@
 package com.example.postapp.domain.repository
 
 import com.example.postapp.domain.model.PostModel
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
-    fun list(): StateFlow<List<PostModel>>
-    fun register(model: PostModel)
+    fun list(): Flow<List<PostModel>>
+
+    suspend fun register(model: PostModel)
 }
