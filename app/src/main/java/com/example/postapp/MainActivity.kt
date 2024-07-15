@@ -129,9 +129,7 @@ fun AddPostInput(onAddItem: (String) -> Unit) {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PostApp(viewModel: PostViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
-    // FIXME UIスレッドでデータベース操作をしようとしているため、エラーが発生する
-    // java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-    val items by viewModel.items.collectAsState()
+    val items by viewModel.items.collectAsState(initial = emptyList())
 
     Column {
         AddPostInput { text ->

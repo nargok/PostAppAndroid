@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PostDao {
     @Query("SELECT * FROM posts ORDER BY id DESC")
-    fun getAllPosts(): List<PostEntity>
+    fun getAllPosts(): Flow<List<PostEntity>>
 
     @Insert
     suspend fun insertPost(post: PostEntity)
