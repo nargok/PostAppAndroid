@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,8 @@ import com.example.postapp.domain.model.PostModel
 import com.example.postapp.ui.theme.PostAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -55,7 +58,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @HiltAndroidApp
-class PostApplication: Application()
+class PostApplication : Application()
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
@@ -125,7 +128,9 @@ fun AddPostInput(onAddItem: (String) -> Unit) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PostApp(viewModel: PostViewModel = hiltViewModel()) {
+fun PostApp(viewModel: PostViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+    // FIXME UIスレッドでデータベース操作をしようとしているため、エラーが発生する
+    // java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
     val items by viewModel.items.collectAsState()
 
     Column {
